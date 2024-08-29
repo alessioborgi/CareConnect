@@ -1,0 +1,57 @@
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 59, in <module>
+    main(traj_file_path, robot_ip)
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 38, in main
+    arm = XArmAPI(robot_ip)
+  File "C:\Users\WolfgangKienreich\miniconda3\envs\robotics_2024-05-24_LNF\lib\site-packages\xarm_python_sdk-1.13.19-py3.8.egg\xarm\wrapper\xarm_api.py", line 85, in __init__
+    self._arm = XArm(port=port,
+  File "C:\Users\WolfgangKienreich\miniconda3\envs\robotics_2024-05-24_LNF\lib\site-packages\xarm_python_sdk-1.13.19-py3.8.egg\xarm\x3\xarm.py", line 46, in __init__
+    Base.__init__(self, port, is_radian, do_not_open, **kwargs)
+  File "C:\Users\WolfgangKienreich\miniconda3\envs\robotics_2024-05-24_LNF\lib\site-packages\xarm_python_sdk-1.13.19-py3.8.egg\xarm\x3\base.py", line 251, in __init__
+    self.connect()
+  File "C:\Users\WolfgangKienreich\miniconda3\envs\robotics_2024-05-24_LNF\lib\site-packages\xarm_python_sdk-1.13.19-py3.8.egg\xarm\x3\base.py", line 875, in connect
+    raise Exception('connect socket failed')
+Exception: connect socket failed
+PS C:\Users\WolfgangKienreich\Documents\coding\2024-07-04_Julie> & C:/Users/WolfgangKienreich/miniconda3/envs/robotics_2024-05-24_LNF/python.exe c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py
+SDK_VERSION: 1.13.19
+ROBOT_IP: 192.168.1.209, VERSION: v2.3.0, PROTOCOL: V1, DETAIL: 6,6,XI1304,AC1303,v2.3.0, TYPE1300: [1, 1]
+change protocol identifier to 3
+Traceback (most recent call last):
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 59, in <module>
+    main(traj_file_path, robot_ip)
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 47, in main
+    trajectory_data = parse_traj_file(traj_file_path)
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 7, in parse_traj_file
+    with open(file_path, 'r') as file:
+FileNotFoundError: [Errno 2] No such file or directory: 'open_window.traj'
+PS C:\Users\WolfgangKienreich\Documents\coding\2024-07-04_Julie> & C:/Users/WolfgangKienreich/miniconda3/envs/robotics_2024-05-24_LNF/python.exe c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py
+SDK_VERSION: 1.13.19
+ROBOT_IP: 192.168.1.209, VERSION: v2.3.0, PROTOCOL: V1, DETAIL: 6,6,XI1304,AC1303,v2.3.0, TYPE1300: [1, 1]
+change protocol identifier to 3
+Traceback (most recent call last):
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 59, in <module>
+    main(traj_file_path, robot_ip)
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 47, in main
+    trajectory_data = parse_traj_file(traj_file_path)
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 7, in parse_traj_file
+    with open(file_path, 'r') as file:
+FileNotFoundError: [Errno 2] No such file or directory: './open_window.traj'
+PS C:\Users\WolfgangKienreich\Documents\coding\2024-07-04_Julie> & C:/Users/WolfgangKienreich/miniconda3/envs/robotics_2024-05-24_LNF/python.exe c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py
+SDK_VERSION: 1.13.19
+ROBOT_IP: 192.168.1.209, VERSION: v2.3.0, PROTOCOL: V1, DETAIL: 6,6,XI1304,AC1303,v2.3.0, TYPE1300: [1, 1]
+change protocol identifier to 3
+Traceback (most recent call last):
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 59, in <module>
+    main(traj_file_path, robot_ip)
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 47, in main
+    trajectory_data = parse_traj_file(traj_file_path)
+  File "c:/Users/WolfgangKienreich/Documents/coding/2024-07-04_Julie/open_window.py", line 8, in parse_traj_file
+    trajectory_data = json.load(file)
+  File "C:\Users\WolfgangKienreich\miniconda3\envs\robotics_2024-05-24_LNF\lib\json\__init__.py", line 293, in load
+    return loads(fp.read(),
+  File "C:\Users\WolfgangKienreich\miniconda3\envs\robotics_2024-05-24_LNF\lib\json\__init__.py", line 357, in loads
+    return _default_decoder.decode(s)
+  File "C:\Users\WolfgangKienreich\miniconda3\envs\robotics_2024-05-24_LNF\lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "C:\Users\WolfgangKienreich\miniconda3\envs\robotics_2024-05-24_LNF\lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

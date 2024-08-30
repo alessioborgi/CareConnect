@@ -1,0 +1,190 @@
+2024-08-30 11:28:12,539 - INFO - Attempting to connect to MQTT broker at 192.168.1.233:1883
+2024-08-30 11:28:12,569 - INFO - Connected to the broker!
+2024-08-30 11:28:12,615 - INFO - Subscribed to envsensors/airQ/airQROB
+2024-08-30 11:28:12,662 - INFO - Subscribed to envsensors/airQ/airQRITA
+2024-08-30 11:28:12,694 - INFO - Subscribed to envsensors/airQ/airQMOMO
+2024-08-30 11:28:12,742 - INFO - Subscribed to envsensors/airQ/airQHANS
+2024-08-30 11:28:12,788 - INFO - Subscribed to envsensors/airQ/airQDORO
+2024-08-30 11:28:12,835 - INFO - Subscribed to envsensors/airQ/airQFOYER
+2024-08-30 11:28:12,978 - INFO - Received message on topic: envsensors/airQ/airQROB
+2024-08-30 11:28:13,071 - INFO - Appended data to airQROB.csv
+2024-08-30 11:28:13,198 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:28:13,293 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:28:13,388 - INFO - Received message on topic: envsensors/airQ/airQMOMO
+2024-08-30 11:28:13,436 - INFO - Appended data to airQMOMO.csv
+2024-08-30 11:28:13,484 - INFO - Received message on topic: envsensors/airQ/airQHANS
+2024-08-30 11:28:13,580 - INFO - Appended data to airQHANS.csv
+2024-08-30 11:28:13,626 - INFO - Received message on topic: envsensors/airQ/airQDORO
+2024-08-30 11:28:13,673 - INFO - Appended data to airQDORO.csv
+2024-08-30 11:28:13,736 - INFO - Received message on topic: envsensors/airQ/airQFOYER
+2024-08-30 11:28:13,816 - INFO - Appended data to airQFOYER.csv
+2024-08-30 11:28:17,819 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:28:17,898 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:28:23,866 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:28:23,959 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:28:29,805 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:28:29,852 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:28:35,227 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:28:35,319 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:28:40,256 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:28:40,350 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:28:45,340 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:28:45,404 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:28:50,892 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:28:50,970 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:28:56,716 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:28:56,812 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:29:01,116 - INFO - Received message on topic: envsensors/airQ/airQHANS
+2024-08-30 11:29:01,180 - INFO - Appended data to airQHANS.csv
+2024-08-30 11:29:03,061 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:29:03,125 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:29:09,549 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:29:09,597 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:29:14,945 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:29:15,024 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:29:55,892 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:29:55,971 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:29:57,279 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:29:57,356 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:01,941 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:02,020 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:07,410 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:07,489 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:13,019 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:13,082 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:18,534 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:18,627 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:24,383 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:24,463 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:29,148 - INFO - Received message on topic: envsensors/airQ/airQMOMO
+2024-08-30 11:30:29,228 - INFO - Appended data to airQMOMO.csv
+2024-08-30 11:30:29,954 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:30,034 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:35,772 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:35,847 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:41,289 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:41,354 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:46,278 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:46,342 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:53,571 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:53,650 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:30:58,809 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:30:58,889 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:31:05,680 - INFO - Received message on topic: envsensors/airQ/airQDORO
+2024-08-30 11:31:05,744 - INFO - Appended data to airQDORO.csv
+2024-08-30 11:31:39,839 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:31:39,916 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:31:40,782 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:31:40,862 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:31:45,881 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:31:45,961 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:31:51,738 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:31:51,831 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:31:58,496 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:31:58,575 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:32:02,308 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:32:02,388 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:32:07,697 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:32:07,745 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:32:12,844 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:32:12,938 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:32:19,158 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:32:19,236 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:32:24,277 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:32:24,339 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:32:30,198 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:32:30,261 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:32:36,998 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:32:37,044 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:32:37,186 - INFO - Received message on topic: envsensors/airQ/airQROB
+2024-08-30 11:32:37,249 - INFO - Appended data to airQROB.csv
+2024-08-30 11:33:18,974 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:33:19,037 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:33:20,009 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:33:20,088 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:33:25,146 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:33:25,224 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:33:30,563 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:33:30,657 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:33:36,506 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:33:36,586 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:33:41,925 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:33:42,019 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:33:47,029 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:33:47,109 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:33:52,792 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:33:52,856 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:33:57,776 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:33:57,854 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:34:01,163 - INFO - Received message on topic: envsensors/airQ/airQHANS
+2024-08-30 11:34:01,227 - INFO - Appended data to airQHANS.csv
+2024-08-30 11:34:04,133 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:34:04,210 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:34:09,153 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:34:09,233 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:34:53,112 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:34:53,188 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:34:54,948 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:34:55,024 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:00,830 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:00,893 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:05,738 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:05,818 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:11,226 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:11,287 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:17,041 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:17,104 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:22,789 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:22,867 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:28,037 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:28,129 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:29,468 - INFO - Received message on topic: envsensors/airQ/airQMOMO
+2024-08-30 11:35:29,563 - INFO - Appended data to airQMOMO.csv
+2024-08-30 11:35:34,270 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:34,334 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:40,523 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:40,618 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:45,962 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:46,040 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:35:51,143 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:35:51,235 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:36:06,031 - INFO - Received message on topic: envsensors/airQ/airQDORO
+2024-08-30 11:36:06,095 - INFO - Appended data to airQDORO.csv
+2024-08-30 11:36:33,541 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:36:33,621 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:36:34,690 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:36:34,752 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:36:40,303 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:36:40,379 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:36:45,302 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:36:45,348 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:36:54,910 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:36:54,990 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:36:56,084 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:36:56,161 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:37:01,740 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:37:01,836 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:37:07,266 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:37:07,344 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:37:13,592 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:37:13,638 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:37:18,718 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:37:18,780 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:37:23,695 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:37:23,757 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:37:30,721 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:37:30,798 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:37:37,064 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:37:37,159 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:37:37,953 - INFO - Received message on topic: envsensors/airQ/airQROB
+2024-08-30 11:37:38,015 - INFO - Appended data to airQROB.csv
+2024-08-30 11:38:19,947 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:38:20,023 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:38:20,847 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:38:20,908 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:38:26,085 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:38:26,149 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:38:31,914 - INFO - Received message on topic: envsensors/airQ/airQRITA
+2024-08-30 11:38:31,991 - INFO - Appended data to airQRITA.csv
+2024-08-30 11:38:32,632 - INFO - Exiting gracefully
+2024-08-30 11:38:33,056 - INFO - MQTT client disconnected and loop stopped

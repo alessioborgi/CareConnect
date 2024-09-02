@@ -34,7 +34,7 @@ def perform_movement(arm, trajectory_data, frequency):
     for data_point in trajectory_data:
         # Send joint angles or positions to the robot
         # Assuming the data points represent joint angles (adjust if needed)
-        arm.set_servo_angle(angle=data_point[:7], wait=False)  # Sending the first 7 values as joint angles
+        arm.set_servo_angle(angle=data_point[:7], wait=False, is_radian=True)  # Sending the first 7 values as joint angles
         
         # Wait for the next step
         time.sleep(time_step)

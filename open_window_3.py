@@ -124,7 +124,3 @@ if __name__ == "__main__":
     robot_ip = "192.168.1.196"  # Replace with your robot's IP address
     main(traj_file_path, robot_ip)
 
-if __name__ == "__main__":
-    traj_file_path = "C:/Users/WolfgangKienreich/Documents/coding/Open_Window_Alessio/Open_Window.traj"  # Replace with the actual path to your .traj file
-    robot_ip = "192.168.1.196"  # Replace with your robot's IP address
-    main(traj_file_path, robot_ip)

@@ -1,5 +1,6 @@
 import time
 from xarm.wrapper import XArmAPI
+import traceback
 
 class RobotMain(object):
     """Robot Main Class"""
@@ -26,19 +27,38 @@ class RobotMain(object):
         if hasattr(self._arm, 'register_count_changed_callback'):
             self._arm.register_count_changed_callback(self._count_changed_callback)
 
+    # Callback for error/warn changes
+    def _error_warn_changed_callback(self, data):
+        if data and data['error_code'] != 0:
+            self.alive = False
+            self.pprint(f"Error {data['error_code']} occurred. Quitting...")
+            self._arm.release_error_warn_changed_callback(self._error_warn_changed_callback)
+
+    # Callback for state changes
+    def _state_changed_callback(self, data):
+        if data and data['state'] == 4:  # state 4 typically means "STOPPED"
+            self.alive = False
+            self.pprint("State=4 (STOPPED), quitting...")
+            self._arm.release_state_changed_callback(self._state_changed_callback)
+
+    # Callback for count changes (if applicable)
+    def _count_changed_callback(self, data):
+        if self.is_alive:
+            self.pprint(f"Counter value: {data['count']}")
+
     def _check_code(self, code, label):
         if not self.is_alive or code != 0:
             self.alive = False
             ret1 = self._arm.get_state()
             ret2 = self._arm.get_err_warn_code()
-            self.pprint('{}, code={}, connected={}, state={}, error={}, ret1={}. ret2={}'.format(label, code, self._arm.connected, self._arm.state, self._arm.error_code, ret1, ret2))
+            self.pprint(f"{label}, code={code}, connected={self._arm.connected}, state={self._arm.state}, error={self._arm.error_code}, ret1={ret1}. ret2={ret2}")
         return self.is_alive
 
     @staticmethod
     def pprint(*args, **kwargs):
         try:
             stack_tuple = traceback.extract_stack(limit=2)[0]
-            print('[{}][{}] {}'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), stack_tuple[1], ' '.join(map(str, args))))
+            print(f"[{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))}][{stack_tuple[1]}] {' '.join(map(str, args))}")
         except:
             print(*args, **kwargs)
 
@@ -100,6 +120,11 @@ def main(traj_file_path, robot_ip):
     arm.disconnect()
 
 if __name__ == "__main__":
+    traj_file_path = "C:/Users/WolfgangKienreich/Documents/coding/Open_Window_Alessio/window_traj.traj"  # Replace with the actual path to your .traj file
+    robot_ip = "192.168.1.196"  # Replace with your robot's IP address
+    main(traj_file_path, robot_ip)
+
+if __name__ == "__main__":
     traj_file_path = "C:/Users/WolfgangKienreich/Documents/coding/Open_Window_Alessio/Open_Window.traj"  # Replace with the actual path to your .traj file
-    robot_ip = "192.168.1.209"  # Replace with your robot's IP address
+    robot_ip = "192.168.1.196"  # Replace with your robot's IP address
     main(traj_file_path, robot_ip)

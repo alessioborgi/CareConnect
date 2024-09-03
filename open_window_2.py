@@ -168,5 +168,6 @@ def main(traj_file_path, robot_ip):
 # Example usage
 if __name__ == "__main__":
     traj_file_path = "C:/Users/WolfgangKienreich/Documents/coding/Open_Window_Alessio/Open_Window.traj"  # Replace with the actual path to your .traj file
-    robot_ip = "192.168.1.209"  # Replace with your robot's IP address
+    # robot_ip = "192.168.1.209"  # Replace with your robot's IP address
+    robot_ip = "192.168.1.196"
     main(traj_file_path, robot_ip)

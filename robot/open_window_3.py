@@ -23,7 +23,11 @@ class RobotMain(object):
         self._arm.set_mode(0)
         self._arm.set_state(0)
         time.sleep(1)
-        self._arm.set_servo_angle_j(*[self._jerk] * 7)  # Set jerk for all joints
+        
+        # Set the jerk for each joint individually
+        for joint_id in range(1, 8):
+            self._arm.set_servo_angle_j(joint_id, self._jerk)
+        
         self._arm.register_error_warn_changed_callback(self._error_warn_changed_callback)
         self._arm.register_state_changed_callback(self._state_changed_callback)
         if hasattr(self._arm, 'register_count_changed_callback'):

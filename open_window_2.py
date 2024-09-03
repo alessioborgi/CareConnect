@@ -1,3 +1,8 @@
+import time
+import traceback
+from xarm.wrapper import XArmAPI
+
+
 class RobotMain(object):
     """Robot Main Class"""
     def __init__(self, robot, **kwargs):

@@ -7,11 +7,10 @@ class RobotMain(object):
     def __init__(self, robot, **kwargs):
         self.alive = True
         self._arm = robot
-        self._tcp_speed = 500  # Increased TCP speed
-        self._tcp_acc = 1000  # Increased TCP acceleration
-        self._angle_speed = 150  # Increased angle speed
-        self._angle_acc = 300  # Increased angle acceleration
-        self._jerk = 1000  # Set a higher jerk value for faster response
+        self._tcp_speed = 20  # Very slow TCP speed
+        self._tcp_acc = 20  # Very slow TCP acceleration
+        self._angle_speed = 5  # Very slow angle speed
+        self._angle_acc = 10  # Very slow angle acceleration
         self._vars = {}
         self._funcs = {}
         self._robot_init()
@@ -23,11 +22,6 @@ class RobotMain(object):
         self._arm.set_mode(0)
         self._arm.set_state(0)
         time.sleep(1)
-        
-        # Set the jerk for each joint individually
-        for joint_id in range(1, 8):
-            self._arm.set_servo_angle_j(joint_id, self._jerk)
-        
         self._arm.register_error_warn_changed_callback(self._error_warn_changed_callback)
         self._arm.register_state_changed_callback(self._state_changed_callback)
         if hasattr(self._arm, 'register_count_changed_callback'):
@@ -107,7 +101,7 @@ def parse_traj_file(file_path):
     return trajectory_data, frequency
 
 def perform_movement(robot_main, trajectory_data, frequency):
-    time_step = max(0.001, 1.0 / frequency)  # Optimize time_step
+    time_step = 1.0 / frequency
 
     for data_point in trajectory_data:
         robot_main.move_servo(angle=data_point[:7], wait=False)
@@ -126,6 +120,6 @@ def main(traj_file_path, robot_ip):
     arm.disconnect()
 
 if __name__ == "__main__":
-    traj_file_path = "C:/Users/WolfgangKienreich/Documents/coding/Open_Window_Alessio/Opening_Window.traj"  # Replace with the actual path to your .traj file
+    traj_file_path = "C:/Users/WolfgangKienreich/Documents/coding/Open_Window_Alessio/window_traj.traj"  # Replace with the actual path to your .traj file
     robot_ip = "192.168.1.196"  # Replace with your robot's IP address
     main(traj_file_path, robot_ip)

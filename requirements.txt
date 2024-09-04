@@ -1,7 +1,0 @@
-llama_index
-chroma
-chromadb
-openai
-logging
-duckdb
-duckdb-engine

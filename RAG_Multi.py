@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 import pandas as pd
+import datetime
 from IPython.display import Markdown, display
 import re
 from openai import OpenAI
@@ -144,6 +145,7 @@ def main():
     timestep_request = 'and the timestamp'
     # query = f"Please provide me all the Air Temperature {timestep_request} values during first day in the room {room_choice}."
     query = f"Please provide me all the health {timestep_request} values during first day in the room {room_choice}."
+    # query = f"Please provide me all the health {timestep_request} values during the last four hours in {room_choice}."
     
     response = query_engine_choice.query(
         query,
@@ -165,8 +167,20 @@ def main():
                 f'For the data use the following dataframe: {df_response}.'
                 'The dataframe df_response only contains results about the room the user is interested in.'
                 'Only print the python code. Do not include comments.'
-                'Do not output any other text before or after the code.'}])
+                'Do not output any other text before or after the code.'
+                }])
+    
     code = chat_completion.choices[0].message.content[9:-3]
+    
+    # Get the current timestamp and format it
+    current_time = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+
+    # Search for plt.show() in the code and insert plt.savefig before it
+    if 'plt.show()' in code:
+        # Insert the savefig line right before plt.show()
+        code = code.replace('plt.show()', f"plt.savefig('./saved_imgs/img_{current_time}.png')\nplt.show()")
+
+    # Execute the modified code
     exec(code)
     
 if __name__ == "__main__":

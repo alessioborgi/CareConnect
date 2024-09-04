@@ -3,3 +3,5 @@ chroma
 chromadb
 openai
 logging
+duckdb
+duckdb-engine

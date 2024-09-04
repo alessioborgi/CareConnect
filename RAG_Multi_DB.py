@@ -5,17 +5,17 @@ from llama_index.core import SQLDatabase
 from llama_index.core.query_engine import NLSQLTableQueryEngine
 from llama_index.llms.openai import OpenAI
 
-# Step 1: Set up OpenAI API key
+
 def load_openai_key():
     with open('oaikey.txt') as keyfile:
         oaikey = keyfile.read().strip()
     os.environ["OPENAI_API_KEY"] = oaikey
     return oaikey
 
-# Step 2: Create an SQLite database and load CSV data
 def create_and_load_database():
+    
     # Set up SQLite in memory
-    engine = create_engine('sqlite:///rooms_data.db')  # This will create a file-based SQLite DB
+    engine = create_engine('sqlite:///CareConnect.db')  # This will create a file-based SQLite DB
     metadata_obj = MetaData()
 
     # Define table schema for rooms
@@ -44,7 +44,6 @@ def create_and_load_database():
 
     return engine
 
-# Step 3: Display data from the tables (if needed)
 def display_table_data(engine):
     with engine.connect() as connection:
         room_tables = ["room_QRITA", "room_QFOYER", "room_QDORO", "room_QHANS", "room_QMOMO", "room_QROB"]
@@ -54,10 +53,9 @@ def display_table_data(engine):
             df = pd.DataFrame(result.fetchall(), columns=result.keys())
             print(df)
 
-# Step 4: Define the SQLDatabase in LlamaIndex
 def setup_llamaindex_sql_database(engine):
     # Create an OpenAI LLM instance
-    llm = OpenAI(temperature=0.1, model="gpt-3.5-turbo")
+    llm = OpenAI(temperature=0.1, model="gpt-4o-mini")
 
     # Define the SQLDatabase to include all room tables
     sql_database = SQLDatabase(engine, include_tables=[
@@ -79,16 +77,17 @@ def run_query(query_engine, query):
 
 # Main function to tie everything together
 def main():
-    # Load OpenAI API key
+    
+    # 1: Set up OpenAI API key
     load_openai_key()
 
-    # Create and load data into SQLite database
+    # 2: Create an SQLite database and load CSV data
     engine = create_and_load_database()
 
-    # Display data from the tables (optional)
+    # 3: Display data from the tables (optional)
     display_table_data(engine)
 
-    # Set up LlamaIndex SQLDatabase
+    # Step 4: Define the SQLDatabase in LlamaIndex
     llm, sql_database = setup_llamaindex_sql_database(engine)
 
     # Set up the Natural Language SQL Query Engine

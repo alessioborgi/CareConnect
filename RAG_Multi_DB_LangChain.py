@@ -65,6 +65,32 @@ def setup_langchain_sql_database(engine):
     return llm, sql_database
 
 
+def query_room(room_choice, input_query, agent_executor, timestep_request=''):
+    """
+    Queries a specific room using the provided input query and an optional timestep request.
+    
+    Args:
+        room_choice (str): The room to query (e.g., "QRITA").
+        input_query (str): The base query input string.
+        agent_executor (obj): The LangChain agent executor object.
+        timestep_request (str, optional): Additional query modifier (e.g., 'Please include the corresponding timestamps'). Defaults to an empty string.
+    
+    Returns:
+        str: The query result or an error message if the data is not present.
+    """
+    
+    # Append timestep request if provided
+    
+    input_query += f" Room: {room_choice}."
+    
+    if timestep_request:
+        input_query += f" {timestep_request}"
+    
+    # Execute the query using the agent executor
+    query_result = agent_executor.invoke({"input": input_query})
+    
+    # Handle cases where the result is empty
+    return query_result
 
 # Main function to tie everything together
 def main():
@@ -81,21 +107,30 @@ def main():
     agent_executor = create_sql_agent(llm, db=sql_database, verbose=True)
 
     ##### 5: Querying the Agent Executor llm (ChatOpenAI). #####
-    timestep_request = 'Please include the corresponding timestamps and format the response as a list'
+    timestep_request = 'Please include together also the corresponding timestamps and format the response as a list of tuples'
     
     # 5.1: QRITA Health Values.
-    room_choice = "QRITA"
-    input_query = f"Please provide me the entire set of health values in the room {room_choice}"
-    input_query += timestep_request
-    query_result = agent_executor.invoke({"input": input_query})
+    # room_choice = "QRITA"
+    # input_query = f"Please provide me the entire set of health values."    
+    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
     
-    # 5.2: Roof Solar Radiation data.
+    # 5.2: QRITA Air Temperature Values.
+    # room_choice = "QRITA"
+    # input_query = "Please provide me the entire set of air temperature values in the room."
+    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
+    
+    # 5.3: ROOF Solar Radiation data.
+    room_choice = "ROOF"
+    input_query = "What was the solar radiation recently?"
+    query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
+    
+    # 5.4: ROOF Solar Radiation data.
     # room_choice = "ROOF"
-    # input_query = f"What was the solar radiation on the {room_choice} recently?"
-    # input_query += timestep_request
-    # query_result = agent_executor.invoke({"input": input_query})
+    # input_query = "What was the average solar radiation during last year?"
+    # query_result = query_room(room_choice, input_query, agent_executor)
     
-    # 5.3: QFOYER air temperature.
+    
+    # 5.error: QFOYER air temperature. (Not present, gives you error!)
     # room_choice = "QFOYER"
     # input_query = f"What is the air temperature in {room_choice} room during the last 24 hours?"
     # input_query += timestep_request
@@ -104,13 +139,11 @@ def main():
     # Print the result if needed
     print("\nQuery Result:")
     print(query_result)
+    
+    
+    print(query_result['output'])
 
     return query_result  # Return the result if needed for further processing
 
 if __name__ == "__main__":
-    query_result = main()
-    
-    
-    
-    
-    
+    query_result = main()  

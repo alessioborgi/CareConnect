@@ -3,8 +3,9 @@
 This project demonstrates an **AI-Driven System** for **querying environmental** data in a **hospital setting**, **generating real-time graphs**, **notifying** and **executing actions** based on the insights obtained. The system uses OpenAI’s GPT models (via **LangChain**) to interact with an SQLite database, create visualizations, and control hospital environmental conditions. The primary use case involves monitoring hospital rooms and rooftop sensor data, allowing staff to query information through natural language.  The system is also able to self-explain, by providing insights derived from the visualization and the correspondent needed actions, allowing also the triggering of the movement of a robot arm. 
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/3de80262-2205-4d59-95d5-11e3bef509e0" width="734" alt="Screenshot 2024-09-05 at 22 44 47">
+  <img width="784" alt="Screenshot 2024-09-05 at 23 15 12" src="https://github.com/user-attachments/assets/e5463524-da0b-4eab-84c7-5727d7188058">
 </p>
+
 
 ### System Architecture Overview
 

@@ -36,10 +36,23 @@ The system consists of several integrated components that work together to handl
 	- In addition to querying and visualization, the system can perform actions based on the results of the data, being able to integrate also the sensor ranges.
 	- For example, if the air quality in a specific room is poor, the system can trigger actions like opening or closing windows with a Robot Arm to adjust the environment in real-time.
 
-   You can see the **Opening-Closing of a Window with a Robot Manipulator** by clicking on the image:
-   <div style="text-align: center">
-	   <img src="images/robot_close_open_window.png" alt="Screenshot" width="1200"/>
-    </div>
+   
+ You can see the **Opening-Closing of a Window with a Robot Manipulator** by clicking on the image:
+
+<div style="text-align: center">
+  <a href="https://www.youtube.com/watch?v=M1Z9PJPd2Jw">
+    <p style="font-size: 16px; margin-top: 5px;">Click the Photo to See the Video!</p>
+    <img src="images/Navigation_Planning_Object_Avoidance_img.png" alt="Screenshot" width="1200"/>
+  </a>
+</div>
+
+<div style="text-align: center">
+  <a href="https://www.youtube.com/watch?v=M1Z9PJPd2Jw">
+    <p style="font-size: 16px; margin-top: 5px;">Click the Photo to See the Video!</p>
+    <img src="utils/robot_close_open_window.png" alt="Screenshot" width="1200"/>
+  </a>
+</div>
+
      
 
 

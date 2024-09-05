@@ -258,9 +258,9 @@ def main():
     timestep_request = 'Please include together also the corresponding timestamps and format the response as a list of tuples. The first tuple should contain the name of the columns we are returning.'
     
     # 5.1: QRITA Health Values.
-    room_choice = "QRITA"
-    input_query = f"Please provide me the entire set of health values."    
-    query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
+    # room_choice = "QRITA"
+    # input_query = f"Please provide me the entire set of health values."    
+    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
     
     # 5.2: QRITA Air Temperature Values.
     # room_choice = "QRITA"
@@ -276,6 +276,11 @@ def main():
     # room_choice = "ROOF"
     # input_query = "What was the average solar radiation during last year?"
     # query_result = query_room(room_choice, input_query, agent_executor)
+    
+    # 5.5: ROOF Air Temperature data.
+    room_choice = "ROOF"
+    input_query = "Please provide me the entire set of air temperature values in the room."
+    query_result = query_room(room_choice, input_query, agent_executor)
     
     # 5.error: QFOYER air temperature. (Not present, gives you error!)
     # room_choice = "QFOYER"

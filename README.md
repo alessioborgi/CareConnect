@@ -40,8 +40,9 @@ The system consists of several integrated components that work together to handl
     <div style="text-align: center">
       <a href="https://youtu.be/M1Z9PJPd2Jw">
         <p style="font-size: 16px; margin-top: 5px;">Click the Photo to See the Video!</p>
-        <img src="images/SLAM_Building_img.png" alt="Screenshot" width="1200"/>
+        <img src="![Uploading Screenshot 2024-09-05 at 23.19.13.png…]()" alt="Screenshot" width="1200"/>
       </a>
     </div>
+
 
 

@@ -136,7 +136,7 @@ def generate_img_visualization(df_img_visualization, oaikey, input_query):
         model='gpt-4o-mini',
         messages=[{'role': 'user', 
                 'content': f'Here it is the user query: {input_query}.'
-                'Generate python code that prints a line chart of the full data. #The chart should include timestamp on the x axis and the other value on the y-axis'
+                'Generate python code that prints a line chart of the full data. The chart should include timestamp on the x axis and the other value on the y-axis'
                 f'For the data use the following dataframe: {df_img_visualization}.'
                 'Only print the python code. Do not include comments.'
                 'Do not output any other text before or after the code.'
@@ -228,7 +228,7 @@ def generate_dynamic_description(input_query, output):
     2. **X-Axis Description**: Explain what the X-axis represents.
     3. **Y-Axis Description**: Explain what the Y-axis represents.
     4. **Key Metrics/Trends**: Mention any important metrics or trends that might be visualized.
-    5. **Data Analysis**: Based on the measurment dataframe containing the range for classifying measurments in Hazardous,Unhealthy,Moderate,Good,Excellent {measurment_df}, provide some insights on the metric.
+    5. **Data Analysis**: Based on the measurment dataframe containing the range for classifying measurments in Hazardous,Unhealthy,Moderate,Good,Excellent {measurment_df}, provide some insights on the metric, always related to the Hospital.
     6. **Insights**: Provide potential insights or conclusions that can be drawn from the data visualization.
     
     Use concise language and focus on what the user will be able to learn from this visualization.

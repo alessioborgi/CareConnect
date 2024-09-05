@@ -5,10 +5,7 @@ from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, 
 from llama_index.core import SQLDatabase
 from llama_index.core.query_engine import NLSQLTableQueryEngine
 from llama_index.llms.openai import OpenAI
-import openai
-# from openai import OpenAI
-
-
+import duckdb
 
 def load_openai_key():
     with open('oaikey.txt') as keyfile:
@@ -18,9 +15,8 @@ def load_openai_key():
 
 # Step 2: Create an SQLite database and load CSV data
 def create_and_load_database():
-    
-    # Set up SQLite in memory
-    engine = create_engine('sqlite:///CareConnect.db')  # This will create a file-based SQLite DB
+    # Set up DuckDB in memory
+    engine = create_engine('duckdb:///:memory:')
     metadata_obj = MetaData()
 
     # Define table schema for rooms
@@ -62,15 +58,7 @@ def create_and_load_database():
 
     return engine
 
-def display_table_data(engine):
-    with engine.connect() as connection:
-        room_tables = ["room_QRITA", "room_QFOYER", "room_QDORO", "room_QHANS", "room_QMOMO", "room_QROB", "rooftop"]
-        for room in room_tables:
-            print(f"\nData from {room}:\n")
-            result = connection.execute(text(f"SELECT * FROM {room} LIMIT 10"))  # Use `text()` to wrap the query
-            df = pd.DataFrame(result.fetchall(), columns=result.keys())
-            print(df)
-
+# Step 3: Define the SQLDatabase in LlamaIndex
 def setup_llamaindex_sql_database(engine):
     # Create an OpenAI LLM instance
     llm = OpenAI(temperature=0.1, model="gpt-4o-mini")
@@ -82,6 +70,7 @@ def setup_llamaindex_sql_database(engine):
 
     return llm, sql_database
 
+# Step 4: Set up the Natural Language SQL Query Engine
 def setup_query_engine(llm, sql_database):
     query_engine = NLSQLTableQueryEngine(llm=llm, sql_database=sql_database)
     return query_engine
@@ -94,12 +83,14 @@ def run_query(query_engine, query):
 
 # Main function to tie everything together
 def main():
-    
-    ##### 1: Set up OpenAI API key. #####
-    oaikey = load_openai_key()
+    # Load OpenAI API key
+    load_openai_key()
 
-    ##### 2: Create an SQLite database and load CSV data. #####
+    # Create and load data into DuckDB database
     engine = create_and_load_database()
+
+    # Display data from the tables (optional)
+    display_table_data(engine)
 
     ##### 3: Display data from the tables (optional). #####
     # display_table_data(engine)
@@ -110,16 +101,9 @@ def main():
     ###### 5: Set up the Natural Language SQL Query Engine. #####
     query_engine = setup_query_engine(llm, sql_database)
 
-    
-    ##### 6: QUERYING THE DB #####
-    
-    timestep_request = 'with the associated timestep. Just provide me back the data only.'
-    
-    # Example Query 1- fetch health values from QRITA.
-    room_choice = "QRITA"
-    query = f"Please provide me the entire set of health values in the room {room_choice}"
-    query += timestep_request
-    response = run_query(query_engine, query)
+    # Example query - fetch health values from QRITA during the first day
+    query = "What are the health values in QRITA room during the first day?"
+    run_query(query_engine, query)
 
     # Example Query 2- fetch temperature data from QFOYER for the last 24 hours
     # room_choice = "QFOYER"

@@ -1,9 +1,13 @@
 import os
+import datetime
 import pandas as pd
 from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, Float, text
 from llama_index.core import SQLDatabase
 from llama_index.core.query_engine import NLSQLTableQueryEngine
 from llama_index.llms.openai import OpenAI
+import openai
+# from openai import OpenAI
+
 
 
 def load_openai_key():
@@ -92,7 +96,7 @@ def run_query(query_engine, query):
 def main():
     
     ##### 1: Set up OpenAI API key. #####
-    load_openai_key()
+    oaikey = load_openai_key()
 
     ##### 2: Create an SQLite database and load CSV data. #####
     engine = create_and_load_database()
@@ -109,23 +113,53 @@ def main():
     
     ##### 6: QUERYING THE DB #####
     
-    timestep_request = 'with the associated timestep.'
+    timestep_request = 'with the associated timestep. Just provide me back the data only.'
     
     # Example Query 1- fetch health values from QRITA.
     room_choice = "QRITA"
-    query = f"Please provide me the entire set of health values in the room {room_choice}."
+    query = f"Please provide me the entire set of health values in the room {room_choice}"
     query += timestep_request
-    run_query(query_engine, query)
+    response = run_query(query_engine, query)
 
     # Example Query 2- fetch temperature data from QFOYER for the last 24 hours
-    room_choice = "QFOYER"
-    query = "What is the air temperature in QFOYER room during the last 24 hours?"
-    run_query(query_engine, query)
+    # room_choice = "QFOYER"
+    # query = f"What is the air temperature in {room_choice} room during the last 24 hours?"
+    # response = run_query(query_engine, query)
 
     # Example Query 3 - fetch rooftop data
-    room_choice = "rooftop"
-    query = "What was the solar radiation on the rooftop recently?"
-    run_query(query_engine, query)
+    # room_choice = "rooftop"
+    # query = f"What was the solar radiation on the {room_choice} recently?"
+    # query = f"What was the entire set of solar radiation on the {room_choice} recently"
+    # query += timestep_request
+    # response = run_query(query_engine, query)
+    
+    # client = OpenAI(api_key=oaikey)
+    chat_completion = openai.chat.completions.create(
+        model='gpt-4o-mini',
+        messages=[{'role': 'user', 
+                'content': f'Here it is the user query: {query}.'
+                'Generate python code that prints a line chart of the full data.' 
+                'The chart should include timestamp on the x axis and the other value on the y-axis.'
+                f'The response coming from the retrieval augmented engine is: {response}'
+                #'For the plotting, about the timestamp, take into consideration for the labels only the day, hours, minutes and seconds information.'
+                # f'For the data use the following dataframe: {df_response}.'
+                # 'The dataframe df_response only contains results about the room the user is interested in.'
+                'Only print the python code. Do not include comments.'
+                'Do not output any other text before or after the code.'
+                }])
+        
+    code = chat_completion.choices[0].message.content[9:-3]
+    
+    # Get the current timestamp and format it
+    current_time = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+
+    # Search for plt.show() in the code and insert plt.savefig before it
+    if 'plt.show()' in code:
+        # Insert the savefig line right before plt.show()
+        code = code.replace('plt.show()', f"plt.savefig('./saved_imgs/img_{current_time}.png')\nplt.show()")
+
+    # Execute the modified code
+    exec(code)
 
 if __name__ == "__main__":
     main()

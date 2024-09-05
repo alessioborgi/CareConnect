@@ -1,4 +1,4 @@
-timestamp_utc,sensor_sn, Air_Temperature, Atmospheric_Pressure,EC,Gust_Speed,Max_Air_Temperature, Max_Precip_Rate,Min_Air_Temperature,Precipitation,RH_Sensor_Temp,Solar_Radiation,Tilt_Angle,VPD,Vapor_Pressure,Wind_Direction,Wind_Speed 
+timestamp,sensor_sn, Air_Temperature, Atmospheric_Pressure,EC,Gust_Speed,Max_Air_Temperature, Max_Precip_Rate,Min_Air_Temperature,Precipitation,RH_Sensor_Temp,Solar_Radiation,Tilt_Angle,VPD,Vapor_Pressure,Wind_Direction,Wind_Speed 
 1719784800,A4100209,20.0,98.0,0.0,2.11,20.1,0.0,20.0,0.0,19.7,0.0,1.4,0.28,2.067,289.7,0.68
 1719785100,A4100209,20.1,98.0,0.0,2.48,20.1,0.0,20.0,0.0,19.8,0.0,1.4,0.29,2.06,302.9,0.75
 1719785400,A4100209,20.1,98.01,0.0,2.38,20.2,0.0,20.0,0.0,19.8,0.0,1.4,0.3,2.054,298.2,0.72

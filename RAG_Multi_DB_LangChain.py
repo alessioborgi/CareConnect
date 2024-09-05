@@ -211,15 +211,25 @@ def generate_dynamic_description(input_query, output):
     # Create an instance of the describer_agent
     describer_agent = DescriberAgent(llm)
 
+    # Specify the file path
+    file_path = './measurement_ranges.csv'
+
+    # Load the CSV file into a DataFrame.
+    measurment_df = pd.read_csv(file_path)
+
+    # Display the DataFrame to check the data.
+    #print(measurment_df)
+
     # Predefined schema for the description
-    schema = """
+    schema = f"""
     Please generate a description for the upcoming visualization following this structure:
     
     1. **Overview**: A brief overview of what the visualization is showing.
     2. **X-Axis Description**: Explain what the X-axis represents.
     3. **Y-Axis Description**: Explain what the Y-axis represents.
     4. **Key Metrics/Trends**: Mention any important metrics or trends that might be visualized.
-    5. **Insights**: Provide potential insights or conclusions that can be drawn from the data visualization.
+    5. **Data Analysis**: Based on the measurment dataframe containing the range for classifying measurments in Hazardous,Unhealthy,Moderate,Good,Excellent {measurment_df}, provide some insights on the metric.
+    6. **Insights**: Provide potential insights or conclusions that can be drawn from the data visualization.
     
     Use concise language and focus on what the user will be able to learn from this visualization.
     """
@@ -236,7 +246,7 @@ def generate_dynamic_description(input_query, output):
 
     # Use the describer_agent to generate the description
     explanation = describer_agent.invoke({"input": prompt})
-    print(explanation)
+    # print(explanation)
     
     return explanation
 
@@ -308,7 +318,7 @@ def determine_query_type(query_input):
         return "continuous"
     else:
         return "unknown"
-    
+
 # Main function to tie everything together
 def main():
     ##### 1: Set up OpenAI API key. #####
@@ -355,7 +365,7 @@ def main():
     else:
         print("Unknown query type.")
     
-    # Print the result if needed
+    # Print the result if needed.
     print("\nQuery Result:")
     print(query_result)
     
@@ -363,7 +373,7 @@ def main():
     
     ##### 6: VISUALIZATION #####
     response_type = check_response_type(query_result['output'])
-    print(response_type)
+    # print(response_type)
     if response_type == 'list':
         df_img_visualization = build_dataframe_from_response(query_result['output'])
         print(df_img_visualization)
@@ -383,7 +393,6 @@ def main():
     }
         return response
 
-    
     else:
         print("There should be an error in the type of response you're getting in output.")
     

@@ -1,0 +1,16 @@
+Measurement,Hazardous,Unhealthy,Moderate,Good,Excellent
+Air_Temperature,Above 40°C,35°C to 40°C,30°C to 35°C,20°C to 30°C,10°C to 20°C
+Atmospheric_Pressure,Below 950 hPa,950 hPa to 980 hPa,980 hPa to 1010 hPa,1010 hPa to 1030 hPa,Above 1030 hPa
+Solar_Radiation,Above 1000 W/m²,800 W/m² to 1000 W/m²,600 W/m² to 800 W/m²,300 W/m² to 600 W/m²,Below 300 W/m²
+Wind_Speed,Above 25 m/s,20 m/s to 25 m/s,15 m/s to 20 m/s,5 m/s to 15 m/s,Below 5 m/s
+oxygen,Below 16%,16% to 18%,18% to 19.5%,19.5% to 21%,Above 21%
+dewpt,Above 24°C,20°C to 24°C,16°C to 20°C,10°C to 16°C,Below 10°C
+no2,Above 200 ppb,100 ppb to 200 ppb,50 ppb to 100 ppb,20 ppb to 50 ppb,Below 20 ppb
+h2s,Above 100 ppb,50 ppb to 100 ppb,20 ppb to 50 ppb,10 ppb to 20 ppb,Below 10 ppb
+humidity,Above 90%,75% to 90%,60% to 75%,40% to 60%,20% to 40%
+pm10,Above 250 µg/m³,150 µg/m³ to 250 µg/m³,50 µg/m³ to 150 µg/m³,20 µg/m³ to 50 µg/m³,Below 20 µg/m³
+pm2_5,Above 150 µg/m³,75 µg/m³ to 150 µg/m³,35 µg/m³ to 75 µg/m³,15 µg/m³ to 35 µg/m³,Below 15 µg/m³
+tvoc,Above 600 ppb,400 ppb to 600 ppb,200 ppb to 400 ppb,100 ppb to 200 ppb,Below 100 ppb
+o3,Above 300 ppb,180 ppb to 300 ppb,120 ppb to 180 ppb,60 ppb to 120 ppb,Below 60 ppb
+co,Above 30 ppm,20 ppm to 30 ppm,10 ppm to 20 ppm,5 ppm to 10 ppm,Below 5 ppm
+co2,Above 5000 ppm,2000 ppm to 5000 ppm,1000 ppm to 2000 ppm,600 ppm to 1000 ppm,Below 600 ppm

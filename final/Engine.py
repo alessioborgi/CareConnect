@@ -9,6 +9,7 @@ from langchain_community.agent_toolkits import create_sql_agent
 from sqlalchemy import DateTime
 from openai import OpenAI
 from langchain.schema import HumanMessage, AIMessage  # Use HumanMessage instead of UserMessage
+from flask import Flask, request, jsonify, render_template
 
 
 def load_openai_key():
@@ -240,8 +241,29 @@ def generate_dynamic_description(input_query, output):
     
     return explanation
 
+def check_for_visual_content(user_message: str):
+    """
+    Checks if the user message contains keywords related to visual content.
+    Args:
+        user_message (str): The user message to check.
+    Returns:
+        str: The type of visual content found in the user message, or None if no visual content is found.
+    """
+    keywords = [
+        "chart", "diagram", "graph", "plot", "figure", "table", "image", "photo", "picture", "illustration", "map", 
+        "drawing", "visual", "infographic", "schema", "blueprint", "plan", "design", "layout", "sketch", "draft", 
+        "outline", "model", "pattern", "representation", "visualization", "charting", "diagramming", "graphing", 
+        "plotting", "figuring", "tabling", "imaging", "photographing", "picturing", "illustrating", "mapping", 
+        "drawing", "visualizing", "infographing", "scheming", "blueprinting", "planning", "designing", "layouting", 
+        "sketching", "drafting", "outlining", "modeling", "patterning", "representing", "visualizing"
+    ]
+    
+    if any(x in user_message.lower() for x in keywords):
+        return True
+    return False
+
 # Main function to tie everything together
-def main():
+def main(room_choice, input_query):
     ##### 1: Set up OpenAI API key. #####
     oaikey = load_openai_key()
 
@@ -257,69 +279,51 @@ def main():
     ##### 5: Querying the Agent Executor llm (ChatOpenAI). #####
     timestep_request = 'Please include together also the corresponding timestamps and format the response as a list of tuples. The first tuple should contain the name of the columns we are returning.'
     
-    # 5.1: QRITA Health Values.
-    # room_choice = "QRITA"
-    # input_query = f"Please provide me the entire set of health values."    
-    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
-    
-    # 5.2: QRITA Air Temperature Values.
-    # room_choice = "QRITA"
-    # input_query = "Please provide me the entire set of air temperature values in the room."
-    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
-    
-    # 5.3: ROOF Solar Radiation data.
-    # room_choice = "ROOF"
-    # input_query = "What was the solar radiation during last 3 months?"
-    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
-    
-    # 5.4: ROOF Solar Radiation data.
-    # room_choice = "ROOF"
-    # input_query = "What was the average solar radiation during last year?"
-    # query_result = query_room(room_choice, input_query, agent_executor)
-    
     # 5.5: ROOF Air Temperature data.
-    room_choice = "ROOF"
-    input_query = "Please provide me the entire set of air temperature values."
-    query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
+    if(check_for_visual_content(input_query)):
+        query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
+    else:
+        query_result = query_room(room_choice, input_query, agent_executor)
+
+
+
     
-    # 5.error: QFOYER air temperature. (Not present, gives you error!)
-    # room_choice = "QFOYER"
-    # input_query = f"What is the air temperature in {room_choice} room during the last 24 hours?"
-    # input_query += timestep_request
-    # query_result = agent_executor.invoke({"input": input_query})
-    
-    # Print the result if needed
-    print("\nQuery Result:")
-    print(query_result)
-    
-    print(type(query_result['output']))
-    
-    ##### 6: VISUALIZATION #####
     response_type = check_response_type(query_result['output'])
-    print(response_type)
+
     if response_type == 'list':
-        df_img_visualization = build_dataframe_from_response(query_result['output'])
-        print(df_img_visualization)
-        img_path = generate_img_visualization(df_img_visualization, oaikey, input_query)
         response = {
-        "response_message": generate_dynamic_description(input_query, query_result['output']),
-        "includes_image": True,
-        "image_path": img_path
-    }
-        return response
-    
+            "response_message": generate_dynamic_description(input_query, query_result['output']),
+            "includes_image": True,
+            "image_path": generate_img_visualization(build_dataframe_from_response(query_result['output']), oaikey, input_query)
+        }
     elif response_type == 'string':
         response = {
-        "response_message": query_result['output'],        
-        "includes_image": False,
-        "image_path": False
-    }
-        return response
-
-    
+            "response_message": query_result['output'],        
+            "includes_image": False,
+            "image_path": False
+        }
     else:
-        print("There should be an error in the type of response you're getting in output.")
+        response = {
+            "response_message": "Error: Invalid response type",
+            "includes_image": False,
+            "image_path": False
+        }
     
+    return response
+
+app = Flask(__name__)
+
+@app.route('/get_data', methods=['GET'])
+def get_data():
+    try:
+        # here we want to get the value of user (i.e. ?user=some-value)
+        room_choice = request.args.get('room_choice')
+        input_query = request.args.get('input_query')
+    
+        result = main(room_choice, input_query)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"response_message": str(e), "includes_image": False, "image_path": False})
 
 if __name__ == "__main__":
-    query_result = main()  
+    app.run(debug=True)

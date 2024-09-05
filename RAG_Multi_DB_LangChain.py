@@ -8,6 +8,7 @@ from langchain_openai import ChatOpenAI  # Use ChatOpenAI for chat models
 from langchain_community.agent_toolkits import create_sql_agent
 from sqlalchemy import DateTime
 from openai import OpenAI
+from langchain.schema import HumanMessage, AIMessage  # Use HumanMessage instead of UserMessage
 
 
 def load_openai_key():
@@ -151,14 +152,94 @@ def generate_img_visualization(df_img_visualization, oaikey, input_query):
         img_path = f"'./saved_imgs/img_{current_time}.png'"
         
         # Insert the savefig line right before plt.show()
-        code = code.replace('plt.show()', f"plt.savefig({img_path})\nplt.show()")
+        code = code.replace('plt.show()', f"plt.savefig({img_path})")
 
     # Execute the modified code
     exec(code)
     
     return img_path
+
+
+class DescriberAgent:
+    def __init__(self, llm):
+        """
+        Initialize the describer agent with an LLM instance.
+        
+        Args:
+            llm (object): The LLM object (e.g., ChatOpenAI) used for generating descriptions.
+        """
+        self.llm = llm
     
+    def invoke(self, prompt_data):
+        """
+        Invokes the LLM to generate a description based on the input prompt.
+        
+        Args:
+            prompt_data (dict): Dictionary containing the input prompt with the key 'input'.
+        
+        Returns:
+            dict: Dictionary containing the output response from the LLM.
+        """
+        # Extract the prompt from the prompt_data
+        prompt = prompt_data["input"]
+
+        # Prepare the prompt as a HumanMessage for the LLM
+        message = [HumanMessage(content=prompt)]
+
+        # Generate the response using the LLM
+        response = self.llm.invoke(input=message)  # Using the correct method `invoke`
+        print(response.content) 
+        return response.content
     
+def generate_dynamic_description(input_query, output):
+    """
+    Generates a description of the upcoming visualization by feeding the input and output to an LLM,
+    based on a predefined schema for the description.
+    
+    Args:
+        input_query (str): The original query made by the user.
+        output (str): The response generated from the query.
+    
+    Returns:
+        str: A dynamically generated explanation of what the image visualization will represent,
+        following the predefined schema.
+    """
+    
+    # Set up the LLM (e.g., OpenAI or ChatOpenAI)
+    llm = ChatOpenAI(temperature=0.1, model="gpt-4o-mini")
+
+    # Create an instance of the describer_agent
+    describer_agent = DescriberAgent(llm)
+
+    # Predefined schema for the description
+    schema = """
+    Please generate a description for the upcoming visualization following this structure:
+    
+    1. **Overview**: A brief overview of what the visualization is showing.
+    2. **X-Axis Description**: Explain what the X-axis represents.
+    3. **Y-Axis Description**: Explain what the Y-axis represents.
+    4. **Key Metrics/Trends**: Mention any important metrics or trends that might be visualized.
+    5. **Insights**: Provide potential insights or conclusions that can be drawn from the data visualization.
+    
+    Use concise language and focus on what the user will be able to learn from this visualization.
+    """
+
+    # Create the prompt for the LLM to explain what the output represents, using the schema
+    prompt = f"""
+    You are in charge of describing the output obtained from the following input query.
+    
+    Input query: {input_query}
+    Output: {output}
+    
+    {schema}
+    """
+
+    # Use the describer_agent to generate the description
+    explanation = describer_agent.invoke({"input": prompt})
+    print(explanation)
+    
+    return explanation
+
 # Main function to tie everything together
 def main():
     ##### 1: Set up OpenAI API key. #####
@@ -215,10 +296,21 @@ def main():
         df_img_visualization = build_dataframe_from_response(query_result['output'])
         print(df_img_visualization)
         img_path = generate_img_visualization(df_img_visualization, oaikey, input_query)
-        return img_path
+        response = {
+        "response_message": generate_dynamic_description(input_query, query_result['output']),
+        "includes_image": True,
+        "image_path": img_path
+    }
+        return response
     
     elif response_type == 'string':
-        return query_result['output']
+        response = {
+        "response_message": query_result['output'],        
+        "includes_image": False,
+        "image_path": False
+    }
+        return response
+
     
     else:
         print("There should be an error in the type of response you're getting in output.")

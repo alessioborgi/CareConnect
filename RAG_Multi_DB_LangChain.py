@@ -240,6 +240,75 @@ def generate_dynamic_description(input_query, output):
     
     return explanation
 
+class QueryTypeAgent:
+    def __init__(self, llm):
+        """
+        Initialize the QueryType agent with an LLM instance.
+        
+        Args:
+            llm (object): The LLM object (e.g., ChatOpenAI) used for analyzing queries.
+        """
+        self.llm = llm
+    
+    def invoke(self, prompt_data):
+        """
+        Invokes the LLM to analyze the input query.
+        
+        Args:
+            prompt_data (dict): Dictionary containing the input prompt with the key 'input'.
+        
+        Returns:
+            str: The LLM's response containing the analysis.
+        """
+        # Extract the prompt from the prompt_data
+        prompt = prompt_data["input"]
+
+        # Prepare the prompt as a HumanMessage for the LLM
+        message = [HumanMessage(content=prompt)]
+
+        # Generate the response using the LLM
+        response = self.llm.invoke(input=message)
+
+        # Return the content of the response
+        return response.content
+
+def determine_query_type(query_input):
+    """
+    Determines whether the query expects a 'single' or 'continuous' result using an LLM.
+    
+    Args:
+        query_input (str): The query input provided by the user.
+    
+    Returns:
+        str: 'single' if the query expects a single result, 'continuous' if it expects multiple results.
+    """
+    
+    # Set up the LLM (e.g., OpenAI or ChatOpenAI)
+    llm = ChatOpenAI(temperature=0.1, model="gpt-4o-mini")
+
+    # Create an instance of the QueryTypeAgent
+    query_type_agent = QueryTypeAgent(llm)
+
+    # Prompt for the LLM to analyze the query type
+    prompt = f"""
+    You are tasked with determining whether a given query expects a 'single' result (like a specific value) or a 'continuous' result (like multiple values over time).
+    
+    Query: {query_input}
+    
+    Please respond with 'single' if the query expects one value, or 'continuous' if the query expects multiple values.
+    """
+
+    # Use the QueryTypeAgent to analyze the query
+    analysis = query_type_agent.invoke({"input": prompt})
+
+    # Check if the LLM returns "single" or "continuous"
+    if "single" in analysis.lower():
+        return "single"
+    elif "continuous" in analysis.lower():
+        return "continuous"
+    else:
+        return "unknown"
+    
 # Main function to tie everything together
 def main():
     ##### 1: Set up OpenAI API key. #####
@@ -260,33 +329,31 @@ def main():
     # 5.1: QRITA Health Values.
     # room_choice = "QRITA"
     # input_query = f"Please provide me the entire set of health values."    
-    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
     
     # 5.2: QRITA Air Temperature Values.
     # room_choice = "QRITA"
     # input_query = "Please provide me the entire set of air temperature values in the room."
-    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
     
     # 5.3: ROOF Solar Radiation data.
     # room_choice = "ROOF"
-    # input_query = "What was the solar radiation recently?"
-    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
+    # input_query = "What was the solar radiation during last 3 months?"
     
     # 5.4: ROOF Solar Radiation data.
     # room_choice = "ROOF"
     # input_query = "What was the average solar radiation during last year?"
-    # query_result = query_room(room_choice, input_query, agent_executor)
     
     # 5.5: ROOF Air Temperature data.
     room_choice = "ROOF"
-    input_query = "Please provide me the entire set of air temperature values in the room."
-    query_result = query_room(room_choice, input_query, agent_executor)
+    input_query = "Please provide me the entire set of air temperature values."
     
-    # 5.error: QFOYER air temperature. (Not present, gives you error!)
-    # room_choice = "QFOYER"
-    # input_query = f"What is the air temperature in {room_choice} room during the last 24 hours?"
-    # input_query += timestep_request
-    # query_result = agent_executor.invoke({"input": input_query})
+    ##### 6: DETERMINE QUERY TYPE AND GET QUERY RESULTS #####
+    query_type = determine_query_type(input_query)
+    if query_type == "continuous":
+        query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
+    elif query_type == "single":
+        query_result = query_room(room_choice, input_query, agent_executor)
+    else:
+        print("Unknown query type.")
     
     # Print the result if needed
     print("\nQuery Result:")

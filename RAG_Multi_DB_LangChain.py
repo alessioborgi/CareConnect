@@ -1,4 +1,5 @@
 import os
+import ast
 import datetime
 import pandas as pd
 from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, Float, text
@@ -6,6 +7,8 @@ from langchain_community.utilities import SQLDatabase
 from langchain_openai import ChatOpenAI  # Use ChatOpenAI for chat models
 from langchain_community.agent_toolkits import create_sql_agent
 from sqlalchemy import DateTime
+from openai import OpenAI
+
 
 def load_openai_key():
     with open('oaikey.txt') as keyfile:
@@ -16,7 +19,7 @@ def load_openai_key():
 # Step 2: Create an SQLite database and load CSV data
 def create_and_load_database():
     # Set up SQLite in memory
-    engine = create_engine('sqlite:///CareConnect.db')  # This will create a file-based SQLite DB
+    engine = create_engine('sqlite:///./DataBase/CareConnect.db')  # This will create the SQLite DB in the desired location
     metadata_obj = MetaData()
 
     # Define table schema for rooms with DateTime for timestamp
@@ -92,6 +95,70 @@ def query_room(room_choice, input_query, agent_executor, timestep_request=''):
     # Handle cases where the result is empty
     return query_result
 
+
+def check_response_type(response_str):
+    try:
+        # Try converting the string to a Python object
+        response_obj = ast.literal_eval(response_str)
+        
+        # Check if it's a list
+        if isinstance(response_obj, list):
+            return "list"
+        else:
+            return "string"
+    except (ValueError, SyntaxError):
+        return "string"
+
+def build_dataframe_from_response(response_str):
+    
+    try:
+        # Convert the string to a Python object (list of tuples)
+        data = ast.literal_eval(response_str)
+        
+        # Extract column names from the first tuple
+        columns = data[0]
+        
+        # Extract the actual data (excluding the first tuple with column names)
+        data_values = data[1:]
+        
+        # Create a pandas DataFrame
+        df = pd.DataFrame(data_values, columns=columns)
+        
+        return df
+    except (ValueError, SyntaxError):
+        return "Invalid response format."
+    
+def generate_img_visualization(df_img_visualization, oaikey, input_query):
+    
+    client = OpenAI(api_key=oaikey)
+    chat_completion = client.chat.completions.create(
+        model='gpt-4o-mini',
+        messages=[{'role': 'user', 
+                'content': f'Here it is the user query: {input_query}.'
+                'Generate python code that prints a line chart of the full data. #The chart should include timestamp on the x axis and the other value on the y-axis'
+                f'For the data use the following dataframe: {df_img_visualization}.'
+                'Only print the python code. Do not include comments.'
+                'Do not output any other text before or after the code.'
+                }])
+    
+    code = chat_completion.choices[0].message.content[9:-3]
+    
+    # Search for plt.show() in the code and insert plt.savefig before it
+    if 'plt.show()' in code:
+        
+        # Get the current timestamp and format it.
+        current_time = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        img_path = f"'./saved_imgs/img_{current_time}.png'"
+        
+        # Insert the savefig line right before plt.show()
+        code = code.replace('plt.show()', f"plt.savefig({img_path})\nplt.show()")
+
+    # Execute the modified code
+    exec(code)
+    
+    return img_path
+    
+    
 # Main function to tie everything together
 def main():
     ##### 1: Set up OpenAI API key. #####
@@ -107,12 +174,12 @@ def main():
     agent_executor = create_sql_agent(llm, db=sql_database, verbose=True)
 
     ##### 5: Querying the Agent Executor llm (ChatOpenAI). #####
-    timestep_request = 'Please include together also the corresponding timestamps and format the response as a list of tuples'
+    timestep_request = 'Please include together also the corresponding timestamps and format the response as a list of tuples. The first tuple should contain the name of the columns we are returning.'
     
     # 5.1: QRITA Health Values.
-    # room_choice = "QRITA"
-    # input_query = f"Please provide me the entire set of health values."    
-    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
+    room_choice = "QRITA"
+    input_query = f"Please provide me the entire set of health values."    
+    query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
     
     # 5.2: QRITA Air Temperature Values.
     # room_choice = "QRITA"
@@ -120,15 +187,14 @@ def main():
     # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
     
     # 5.3: ROOF Solar Radiation data.
-    room_choice = "ROOF"
-    input_query = "What was the solar radiation recently?"
-    query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
+    # room_choice = "ROOF"
+    # input_query = "What was the solar radiation recently?"
+    # query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
     
     # 5.4: ROOF Solar Radiation data.
     # room_choice = "ROOF"
     # input_query = "What was the average solar radiation during last year?"
     # query_result = query_room(room_choice, input_query, agent_executor)
-    
     
     # 5.error: QFOYER air temperature. (Not present, gives you error!)
     # room_choice = "QFOYER"
@@ -140,10 +206,23 @@ def main():
     print("\nQuery Result:")
     print(query_result)
     
+    print(type(query_result['output']))
     
-    print(query_result['output'])
-
-    return query_result  # Return the result if needed for further processing
+    ##### 6: VISUALIZATION #####
+    response_type = check_response_type(query_result['output'])
+    print(response_type)
+    if response_type == 'list':
+        df_img_visualization = build_dataframe_from_response(query_result['output'])
+        print(df_img_visualization)
+        img_path = generate_img_visualization(df_img_visualization, oaikey, input_query)
+        return img_path
+    
+    elif response_type == 'string':
+        return query_result['output']
+    
+    else:
+        print("There should be an error in the type of response you're getting in output.")
+    
 
 if __name__ == "__main__":
     query_result = main()  

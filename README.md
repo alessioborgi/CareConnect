@@ -42,13 +42,6 @@ The system consists of several integrated components that work together to handl
 <div style="text-align: center">
   <a href="https://www.youtube.com/watch?v=M1Z9PJPd2Jw">
     <p style="font-size: 16px; margin-top: 5px;">Click the Photo to See the Video!</p>
-    <img src="images/Navigation_Planning_Object_Avoidance_img.png" alt="Screenshot" width="1200"/>
-  </a>
-</div>
-
-<div style="text-align: center">
-  <a href="https://www.youtube.com/watch?v=M1Z9PJPd2Jw">
-    <p style="font-size: 16px; margin-top: 5px;">Click the Photo to See the Video!</p>
     <img src="utils/robot_close_open_window.png" alt="Screenshot" width="1200"/>
   </a>
 </div>

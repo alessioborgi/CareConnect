@@ -154,7 +154,7 @@ def generate_img_visualization(df_img_visualization, oaikey, input_query):
         
         # Insert the savefig line right before plt.show()
         code = code.replace('plt.show()', f"plt.savefig({img_path})")
-
+    #response = img_path.replace("'", "")
     # Execute the modified code
     exec(code)
     

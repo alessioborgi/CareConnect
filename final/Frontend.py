@@ -28,7 +28,7 @@ col1, col2 = st.columns([4, 1])
 with col1:
     options = st.multiselect(
         "Select a room", ["DORO", "MOMO", "ROOF", "ROB", "HANS", "RITA", "FOYER"],
-        default=["DORO"], help="Select a room to query data from"
+        default=["ROOF"], help="Select a room to query data from"
     )
 with col2:
     if st.button("Reset", help="Reset the selected rooms", key="reset", use_container_width=True):
@@ -66,10 +66,12 @@ if prompt := st.chat_input():
             msg = response.json().get("response_message", "No data returned.")
             #add image to the body of msg
             path = response.json().get("image_path")
-            if not path:
-                st.image(path, use_column_width=True)
+            if not isinstance(path, bool):
+                print(path)
+                print("saved_imgs\img_20240905_225605.png")
+                st.image(path.replace("final/", "").replace("/", "\\").replace("'", ""), use_column_width=True)
             st.session_state.messages.append({"role": "assistant", "content": msg})
-         #   st.chat_message("assistant").write(msg)
+            st.chat_message("assistant").write(msg)
           #  st.chat_message("assistant").image(path, use_column_width=True)
         else:
             st.error(f"Request failed with status code {response.status_code}")

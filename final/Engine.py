@@ -9,6 +9,7 @@ from langchain_community.agent_toolkits import create_sql_agent
 from sqlalchemy import DateTime
 from openai import OpenAI
 from langchain.schema import HumanMessage, AIMessage  # Use HumanMessage instead of UserMessage
+from flask import Flask, request, jsonify, render_template
 
 
 def load_openai_key():
@@ -128,75 +129,6 @@ def build_dataframe_from_response(response_str):
         return df
     except (ValueError, SyntaxError):
         return "Invalid response format."
-
-class QueryTypeAgent:
-    def __init__(self, llm):
-        """
-        Initialize the QueryType agent with an LLM instance.
-        
-        Args:
-            llm (object): The LLM object (e.g., ChatOpenAI) used for analyzing queries.
-        """
-        self.llm = llm
-    
-    def invoke(self, prompt_data):
-        """
-        Invokes the LLM to analyze the input query.
-        
-        Args:
-            prompt_data (dict): Dictionary containing the input prompt with the key 'input'.
-        
-        Returns:
-            str: The LLM's response containing the analysis.
-        """
-        # Extract the prompt from the prompt_data
-        prompt = prompt_data["input"]
-
-        # Prepare the prompt as a HumanMessage for the LLM
-        message = [HumanMessage(content=prompt)]
-
-        # Generate the response using the LLM
-        response = self.llm.invoke(input=message)
-
-        # Return the content of the response
-        return response.content
-
-def determine_query_type(query_input):
-    """
-    Determines whether the query expects a 'single' or 'continuous' result using an LLM.
-    
-    Args:
-        query_input (str): The query input provided by the user.
-    
-    Returns:
-        str: 'single' if the query expects a single result, 'continuous' if it expects multiple results.
-    """
-    
-    # Set up the LLM (e.g., OpenAI or ChatOpenAI)
-    llm = ChatOpenAI(temperature=0.1, model="gpt-4o-mini")
-
-    # Create an instance of the QueryTypeAgent
-    query_type_agent = QueryTypeAgent(llm)
-
-    # Prompt for the LLM to analyze the query type
-    prompt = f"""
-    You are tasked with determining whether a given query expects a 'single' result (like a specific value) or a 'continuous' result (like multiple values over time).
-    
-    Query: {query_input}
-    
-    Please respond with 'single' if the query expects one value, or 'continuous' if the query expects multiple values.
-    """
-
-    # Use the QueryTypeAgent to analyze the query
-    analysis = query_type_agent.invoke({"input": prompt})
-
-    # Check if the LLM returns "single" or "continuous"
-    if "single" in analysis.lower():
-        return "single"
-    elif "continuous" in analysis.lower():
-        return "continuous"
-    else:
-        return "unknown"
     
 def generate_img_visualization(df_img_visualization, oaikey, input_query):
     
@@ -222,7 +154,7 @@ def generate_img_visualization(df_img_visualization, oaikey, input_query):
         
         # Insert the savefig line right before plt.show()
         code = code.replace('plt.show()', f"plt.savefig({img_path})")
-
+    #response = img_path.replace("'", "")
     # Execute the modified code
     exec(code)
     
@@ -309,8 +241,29 @@ def generate_dynamic_description(input_query, output):
     
     return explanation
 
+def check_for_visual_content(user_message: str):
+    """
+    Checks if the user message contains keywords related to visual content.
+    Args:
+        user_message (str): The user message to check.
+    Returns:
+        str: The type of visual content found in the user message, or None if no visual content is found.
+    """
+    keywords = [
+        "chart", "diagram", "graph", "plot", "figure", "table", "image", "photo", "picture", "illustration", "map", 
+        "drawing", "visual", "infographic", "schema", "blueprint", "plan", "design", "layout", "sketch", "draft", 
+        "outline", "model", "pattern", "representation", "visualization", "charting", "diagramming", "graphing", 
+        "plotting", "figuring", "tabling", "imaging", "photographing", "picturing", "illustrating", "mapping", 
+        "drawing", "visualizing", "infographing", "scheming", "blueprinting", "planning", "designing", "layouting", 
+        "sketching", "drafting", "outlining", "modeling", "patterning", "representing", "visualizing"
+    ]
+    
+    if any(x in user_message.lower() for x in keywords):
+        return True
+    return False
+
 # Main function to tie everything together
-def main():
+def main(room_choice, input_query):
     ##### 1: Set up OpenAI API key. #####
     oaikey = load_openai_key()
 
@@ -326,67 +279,51 @@ def main():
     ##### 5: Querying the Agent Executor llm (ChatOpenAI). #####
     timestep_request = 'Please include together also the corresponding timestamps and format the response as a list of tuples. The first tuple should contain the name of the columns we are returning.'
     
-    # 5.1: QRITA Health Values.
-    # room_choice = "QRITA"
-    # input_query = f"Please provide me the entire set of health values."    
-    
-    # 5.2: QRITA Air Temperature Values.
-    # room_choice = "QRITA"
-    # input_query = "Please provide me the entire set of air temperature values in the room."
-    
-    # 5.3: ROOF Solar Radiation data.
-    # room_choice = "ROOF"
-    # input_query = "What was the solar radiation during last 3 months?"
-    
-    # 5.4: ROOF Solar Radiation data.
-    # room_choice = "ROOF"
-    # input_query = "What was the average solar radiation during last year?"
-    
     # 5.5: ROOF Air Temperature data.
-    room_choice = "ROOF"
-    input_query = "Please provide me the entire set of air temperature values."
-    
-    ##### 6: DETERMINE QUERY TYPE AND GET QUERY RESULTS #####
-    query_type = determine_query_type(input_query)
-    if query_type == "continuous":
+    if(check_for_visual_content(input_query)):
         query_result = query_room(room_choice, input_query, agent_executor, timestep_request)
-    elif query_type == "single":
-        query_result = query_room(room_choice, input_query, agent_executor)
     else:
-        print("Unknown query type.")
+        query_result = query_room(room_choice, input_query, agent_executor)
+
+
+
     
-    # Print the result if needed
-    print("\nQuery Result:")
-    print(query_result)
-    
-    print(type(query_result['output']))
-    
-    ##### 6: VISUALIZATION #####
     response_type = check_response_type(query_result['output'])
-    print(response_type)
+
     if response_type == 'list':
-        df_img_visualization = build_dataframe_from_response(query_result['output'])
-        print(df_img_visualization)
-        img_path = generate_img_visualization(df_img_visualization, oaikey, input_query)
         response = {
-        "response_message": generate_dynamic_description(input_query, query_result['output']),
-        "includes_image": True,
-        "image_path": img_path
-    }
-        return response
-    
+            "response_message": generate_dynamic_description(input_query, query_result['output']),
+            "includes_image": True,
+            "image_path": generate_img_visualization(build_dataframe_from_response(query_result['output']), oaikey, input_query)
+        }
     elif response_type == 'string':
         response = {
-        "response_message": query_result['output'],        
-        "includes_image": False,
-        "image_path": False
-    }
-        return response
-
-    
+            "response_message": query_result['output'],        
+            "includes_image": False,
+            "image_path": False
+        }
     else:
-        print("There should be an error in the type of response you're getting in output.")
+        response = {
+            "response_message": "Error: Invalid response type",
+            "includes_image": False,
+            "image_path": False
+        }
     
+    return response
+
+app = Flask(__name__)
+
+@app.route('/get_data', methods=['GET'])
+def get_data():
+    try:
+        # here we want to get the value of user (i.e. ?user=some-value)
+        room_choice = request.args.get('room_choice')
+        input_query = request.args.get('input_query')
+    
+        result = main(room_choice, input_query)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"response_message": str(e), "includes_image": False, "image_path": False})
 
 if __name__ == "__main__":
-    query_result = main()  
+    app.run(debug=True)

@@ -1,89 +1,80 @@
-import streamlit as st 
+import streamlit as st
 import pandas as pd
-from langchain_openai import ChatOpenAI
-from pandasai import SmartDataframe
-from openai import OpenAI
+import requests
 
-#TODO: import engine and retrieve data from the rooms
-
+# Streamlit app configuration
 st.set_page_config(page_title="Talk to Your Data", page_icon="🦾", layout="centered")
 st.title("Talk to JUNO 🦾")
 st.markdown("###### Rooms: MOMO 🤺, DORO💻, ROOF 🏠, ROB 🤖, HANS 🛠️, RITA 🥽, and FOYER 🛋️")
 
-st.sidebar.image("assets/CareConnetLogo.png", use_column_width=True)
+st.sidebar.image("final/assets/CareConnetLogo.png", use_column_width=True)
 st.sidebar.markdown("_________________________")
 
-#write description
-st.sidebar.write("This is a data analysis tool that allows you to interact with your data using natural language. connecting your sensor data and ask questions about your data.")
-#add contact
-#st.sidebar.write("Contact: it-u" + " " + "careconnet.com")
-
-st.sidebar.markdown(" ")
-#add line in markdown
-#add group members
-#st.sidebar.write("Group 8 : the best team")
-#add group members
+# Write description
+st.sidebar.write("This is a data analysis tool that allows you to interact with your data using natural language, connecting your sensor data and asking questions about your data.")
+# Add group members
 st.sidebar.markdown("**Group Members** 💂‍♂️🥷🕵️‍♂️👩‍💻🧙")
-st.sidebar.markdown("Oliver, Amina, Simone, Alissio, Hamed")
+st.sidebar.markdown("Oliver, Amina, Simone, Alessio, Hamed")
 st.sidebar.markdown(" ")
-
 st.sidebar.markdown("**Mentors:** 🫅")
 st.sidebar.markdown("Dr. T from TU Graz")
-st.sidebar.markdown(" ")
-st.sidebar.markdown(" ")
-st.sidebar.markdown(" ")
-st.sidebar.markdown(" ")
-
-
-#add line in markdown
 st.sidebar.markdown("_________________________")
-#add logo
-st.sidebar.image("assets/itulogo.png", use_column_width=True)
+st.sidebar.image("final/assets/itulogo.png", use_column_width=True)
 
-data = pd.read_csv("assets/precipitation.csv")
-#st.write(data.head(3))
+data = pd.read_csv("final/assets/precipitation.csv")
 
-openai_api_key = "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"
-
-if not openai_api_key.startswith("sk-"):
-    st.warning("Please enter your OpenAI API key!", icon="⚠️")
-    
-
-
-
-#st.image("temp_chart.png", use_column_width=True)
-                
-
-#add reset button
-
-    
-#make options and reset in the same row tow columns
+# Make options and reset button
 col1, col2 = st.columns([4, 1])
 with col1:
-    options = st.multiselect("Select a room", ["DORO", "MOMO", "ROOF", "ROB", "HANS", "RITA", "FOYER"], default=["DORO"], help="Select a room to query data from")
+    options = st.multiselect(
+        "Select a room", ["DORO", "MOMO", "ROOF", "ROB", "HANS", "RITA", "FOYER"],
+        default=["ROOF"], help="Select a room to query data from"
+    )
 with col2:
-    if st.button("Reset", help="Reset the selected rooms", key="reset",use_container_width=True):
-        st.write(" ")
+    if st.button("Reset", help="Reset the selected rooms", key="reset", use_container_width=True):
         st.session_state.messages = [{"role": "assistant", "content": "How can I help you?"}]
-    
 
-
+# Chat interface setup
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
+# Handle user input and request data
 if prompt := st.chat_input():
-    if not openai_api_key:
-        st.info("Please add your OpenAI API key to continue.")
-        st.stop()
-
-    client = OpenAI(api_key=openai_api_key)
+    # Append user's message to the session state
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
-    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-    msg = response.choices[0].message.content
-    st.session_state.messages.append({"role": "assistant", "content": msg})
-    st.chat_message("assistant").write(msg)
 
+    # Use the selected room or default to "ROOF"
+    selected_room = options[0] if options else "ROOF"
+
+    # Make the GET request to your local service
+    url = "http://127.0.0.1:5000/get_data"
+    params = {
+        "room_choice": selected_room,
+        "input_query": prompt
+    }
+
+    try:
+        # Send request
+        response = requests.get(url, params=params)
+        print(response.json())
+        if response.status_code == 200:
+            # Process and display the response
+            msg = response.json().get("response_message", "No data returned.")
+            #add image to the body of msg
+            path = response.json().get("image_path")
+            if not isinstance(path, bool):
+                print(path)
+                print("saved_imgs\img_20240905_225605.png")
+                st.image(path.replace("final/", "").replace("/", "\\").replace("'", ""), use_column_width=True)
+            st.session_state.messages.append({"role": "assistant", "content": msg})
+            st.chat_message("assistant").write(msg)
+          #  st.chat_message("assistant").image(path, use_column_width=True)
+        else:
+            st.error(f"Request failed with status code {response.status_code}")
+    
+    except requests.exceptions.RequestException as e:
+        st.error(f"An error occurred: {e}")

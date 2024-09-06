@@ -46,6 +46,18 @@ The system consists of several integrated components that work together to handl
   </a>
 </div>
 
+### Installation
+
+1. **Clone the Repository**: ```git clone https://github.com/your-repository/hospital-environment-monitoring.git
+cd hospital-environment-monitoring```
+2. **Install Required Dependencies**: ```pip install -r requirements.txt```
+3. **Set Up OpenAI API Key**: Add your OpenAI API key in a file named oaikey.txt in the project root directory. ```YOUR_OPENAI_API_KEY```
+4. **Prepare the Database**:
+   - Ensure that you have the relevant CSV files containing environmental data. These files should be 	 
+     placed in the corresponding directories ```(./MQTT Client/Room MQTT Client/data/)```.
+   - The system will automatically create an SQLite database and populate it with this data when you run 
+     the code.
+
      
 
 

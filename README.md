@@ -58,7 +58,47 @@ cd hospital-environment-monitoring```
    - The system will automatically create an SQLite database and populate it with this data when you run 
      the code.
 
-     
+### How to Run the System
+
+1. **Run the Main Script**: Execute the main script to set up the OpenAI API key, create the SQLite database, and query the environmental data. ```python main.py```.
+2. **Sample Queries**: After starting the system, you can submit queries in natural language. For example:
+ 	- *Please provide the air quality in QRITA.*
+   	- *Show me the air temperature trends in QROB for the last 7 days.*
+	- *What was the average solar radiation on the rooftop in the past year?*
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   

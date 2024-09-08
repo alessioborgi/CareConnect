@@ -2,7 +2,7 @@
 
 ### Copyright © 2024 Alessio Borgi, Simone Redl, Oliver Guy, Amina Tucaković, Hamed Kshiem
 
-This project demonstrates an **AI-Driven System** for **querying environmental** data in a **hospital setting**, **generating real-time graphs**, **notifying** and **executing actions** based on the insights obtained. The system uses OpenAI’s GPT models (via **LangChain**) to interact with an SQLite database, create visualizations, and control hospital environmental conditions. The primary use case involves monitoring hospital rooms and rooftop sensor data, allowing staff to query information through natural language.  The system is also able to self-explain, by providing insights derived from the visualization and the correspondent needed actions, allowing also the triggering of the movement of a robot arm. 
+This project demonstrates an **AI-Driven System** for **querying environmental** data in a **hospital setting**, **generating real-time graphs**, **notifying** and **executing actions** based on the insights obtained. The system uses OpenAI’s GPT models (via **LangChain**) to interact with an SQLite database, create visualizations, and control hospital environmental conditions. The primary use case involves monitoring hospital rooms and rooftop sensor data, allowing staff to query information through natural language.  The system can also self-explain by providing insights derived from visualizations and recommending corresponding actions, allowing also the triggering of the movement of a robot arm. 
 
 <p align="center">
   <img width="784" alt="Screenshot 2024-09-05 at 23 15 12" src="https://github.com/user-attachments/assets/e5463524-da0b-4eab-84c7-5727d7188058">

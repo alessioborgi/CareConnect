@@ -7,7 +7,7 @@ st.set_page_config(page_title="Talk to Your Data", page_icon="🦾", layout="cen
 st.title("Talk to JUNO 🦾")
 st.markdown("###### Rooms: MOMO 🤺, DORO💻, ROOF 🏠, ROB 🤖, HANS 🛠️, RITA 🥽, and FOYER 🛋️")
 
-st.sidebar.image("final/assets/CareConnetLogo.png", use_column_width=True)
+st.sidebar.image("./assets/CareConnectLogo.png", use_column_width=True)
 st.sidebar.markdown("_________________________")
 
 # Write description
@@ -19,9 +19,9 @@ st.sidebar.markdown(" ")
 st.sidebar.markdown("**Mentors:** 🫅")
 st.sidebar.markdown("Dr. T from TU Graz")
 st.sidebar.markdown("_________________________")
-st.sidebar.image("final/assets/itulogo.png", use_column_width=True)
+st.sidebar.image("./assets/itulogo.png", use_column_width=True)
 
-data = pd.read_csv("final/assets/precipitation.csv")
+data = pd.read_csv("./assets/precipitation.csv")
 
 # Make options and reset button
 col1, col2 = st.columns([4, 1])
@@ -31,27 +31,35 @@ with col1:
         default=["ROOF"], help="Select a room to query data from"
     )
 with col2:
-    if st.button("Reset", help="Reset the selected rooms", key="reset", use_container_width=True):
+    if st.button("Reset", help="Reset the selected rooms", key="reset"):
         st.session_state.messages = [{"role": "assistant", "content": "How can I help you?"}]
 
 # Chat interface setup
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
+# Displaying chat history using st.write instead of st.chat_message
 for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).write(msg["content"])
+    if msg["role"] == "assistant":
+        st.write(f"**Assistant:** {msg['content']}")
+    else:
+        st.write(f"**You:** {msg['content']}")
 
 # Handle user input and request data
-if prompt := st.chat_input():
+# Handle user input with st.text_input
+prompt = st.text_input("Enter your message:")
+
+# If the user enters a message
+if prompt:
     # Append user's message to the session state
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.chat_message("user").write(prompt)
+    st.write(f"**You:** {prompt}")
 
     # Use the selected room or default to "ROOF"
     selected_room = options[0] if options else "ROOF"
 
     # Make the GET request to your local service
-    url = "http://127.0.0.1:5000/get_data"
+    url = "http://127.0.0.1:5001/get_data"
     params = {
         "room_choice": selected_room,
         "input_query": prompt
@@ -64,15 +72,13 @@ if prompt := st.chat_input():
         if response.status_code == 200:
             # Process and display the response
             msg = response.json().get("response_message", "No data returned.")
-            #add image to the body of msg
+            # add image to the body of msg
             path = response.json().get("image_path")
             if not isinstance(path, bool):
                 print(path)
-                print("saved_imgs\img_20240905_225605.png")
-                st.image(path.replace("final/", "").replace("/", "\\").replace("'", ""), use_column_width=True)
+                st.image(path.replace("final/", "").replace("/", "\\"), use_column_width=True)
             st.session_state.messages.append({"role": "assistant", "content": msg})
-            st.chat_message("assistant").write(msg)
-          #  st.chat_message("assistant").image(path, use_column_width=True)
+            st.write(f"**Assistant:** {msg}")
         else:
             st.error(f"Request failed with status code {response.status_code}")
     

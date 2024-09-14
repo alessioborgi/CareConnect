@@ -10,7 +10,9 @@ from sqlalchemy import DateTime
 from openai import OpenAI
 from langchain.schema import HumanMessage, AIMessage  # Use HumanMessage instead of UserMessage
 from flask import Flask, request, jsonify, render_template
-
+from flask_cors import CORS
+app = Flask(__name__)
+CORS(app)
 
 def load_openai_key():
     with open('./final/oaikey.txt') as keyfile:
@@ -326,4 +328,5 @@ def get_data():
         return jsonify({"response_message": str(e), "includes_image": False, "image_path": False})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)  # Use a different port if 5000 is in use
+    # app.run(debug=True)

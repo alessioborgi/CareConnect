@@ -50,11 +50,19 @@ The system consists of several integrated components that work together to handl
 
 ### Installation
 
-1. **Clone the Repository**: bash ```git clone https://github.com/your-repository/hospital-environment-monitoring.git
-cd hospital-environment-monitoring```
-2. **Install Required Dependencies**: bash ```pip install -r requirements.txt```
-3. **Set Up OpenAI API Key**: Add your OpenAI API key in a file named oaikey.txt in the project root directory. ```YOUR_OPENAI_API_KEY```
-4. **Prepare the Database**:
+1. **Clone the Repository**:
+   bash
+   ```
+   git clone https://github.com/your-repository/hospital-environment-monitoring.git
+   cd hospital-environment-monitoring
+   ```
+3. **Install Required Dependencies**:
+   bash
+   ```
+   pip install -r requirements.txt
+   ```
+5. **Set Up OpenAI API Key**: Add your OpenAI API key in a file named oaikey.txt in the project root directory. ```YOUR_OPENAI_API_KEY```
+6. **Prepare the Database**:
    - Ensure that you have the relevant CSV files containing environmental data. These files should be 	 
      placed in the corresponding directories ```(./MQTT Client/Room MQTT Client/data/)```.
    - The system will automatically create an SQLite database and populate it with this data when you run 
@@ -65,14 +73,18 @@ cd hospital-environment-monitoring```
 1. **Run the Engine Script**: Execute the main script from within the './final' folder, to set up the OpenAI API key, create the SQLite database, and query the environmental data.
    bash
    ```
-   Engine.py
+   python Engine.py
    ```
-3. **Run the Streamlit Frontend Script**: Execute the frontend script. bash 
-4. **Sample Queries**: After starting the system, you can submit queries in natural language. For example:
- 	- *"Please provide the air quality in QRITA."*
-   	- *"Show me the air temperature trends in QROB for the last 7 days."*
-	- *"What was the average solar radiation on the rooftop in the past year?"*
-5. **Graph Visualization**: If your query returns a time-series dataset, the system will generate a graph automatically and save it as a .png image. These graphs will be displayed directly on the frontend.
+3. **Run the Streamlit Frontend Script**: Execute the frontend script, in a parallel terminal, from within the './final' folder .
+   bash
+   ```
+   python -m streamlit run Frontend.py
+   ```
+5. **Sample Queries**: After starting the system, you can submit queries in natural language. For example:
+ 	- *"Please provide the air quality."*
+   	- *"Show me the air temperature trends for the last 7 days."*
+	- *"What was the average solar radiation in the past year?"*
+6. **Graph Visualization**: If your query returns a time-series dataset, the system will generate a graph automatically and save it as a .png image. These graphs will be displayed directly on the frontend.
 
 
 

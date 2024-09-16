@@ -47,6 +47,16 @@ The system consists of several integrated components that work together to handl
 </div>
 
 
+ You can see the **Figma Application Browsing** clicking on the image:
+
+<div style="text-align: center">
+  <a href="https://www.youtube.com/watch?v=KBho37kmRm4">
+    <p style="font-size: 16px; margin-top: 5px;">Click the Photo to See the Video!</p>
+    <img src="utils/robot_close_open_window.png" alt="Screenshot" width="1200"/>
+  </a>
+</div>
+
+
  You can see the **Opening-Closing of a Window with a Robot Manipulator** by clicking on the image:
 
 <div style="text-align: center">

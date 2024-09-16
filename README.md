@@ -1,5 +1,3 @@
-<img width="1728" alt="Juno_Chat" src="https://github.com/user-attachments/assets/f538c7f3-bcb4-4cd2-bb02-b50b8a053f33"># Care Connect: Using LLMs to Improve Patient Care & Hospital Efficiency
-
 ### Copyright © 2024 Alessio Borgi, Simone Redl, Oliver Guy, Amina Tucaković, Hamed Kshiem
 
 This project demonstrates an **AI-Driven System** for **querying environmental** data in a **hospital setting**, **generating real-time graphs**, **notifying** and **executing actions** based on the insights obtained. The system uses OpenAI’s GPT models (via **LangChain**) to interact with an SQLite database, create visualizations, and control hospital environmental conditions. The primary use case involves monitoring hospital rooms and rooftop sensor data, allowing staff to query information through natural language.  The system can also self-explain by providing insights derived from visualizations and recommending corresponding actions, allowing also the triggering of the movement of a robot arm. 

@@ -62,13 +62,16 @@ cd hospital-environment-monitoring```
 
 ### How to Run the System
 
-1. **Run the Engine Script**: Execute the main script from within the './final' folder, to set up the OpenAI API key, create the SQLite database, and query the environmental data. bash ```Engine.py```
-2. **Run the Streamlit Frontend Script**: Execute the frontend script. bash 
-3. **Sample Queries**: After starting the system, you can submit queries in natural language. For example:
+1. **Run the Engine Script**: Execute the main script from within the './final' folder, to set up the OpenAI API key, create the SQLite database, and query the environmental data.
+   bash ```
+   Engine.py
+   ```
+3. **Run the Streamlit Frontend Script**: Execute the frontend script. bash 
+4. **Sample Queries**: After starting the system, you can submit queries in natural language. For example:
  	- *"Please provide the air quality in QRITA."*
    	- *"Show me the air temperature trends in QROB for the last 7 days."*
 	- *"What was the average solar radiation on the rooftop in the past year?"*
-4. **Graph Visualization**: If your query returns a time-series dataset, the system will generate a graph automatically and save it as a .png image. These graphs will be displayed directly on the frontend.
+5. **Graph Visualization**: If your query returns a time-series dataset, the system will generate a graph automatically and save it as a .png image. These graphs will be displayed directly on the frontend.
 
 
 

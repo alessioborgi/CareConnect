@@ -52,7 +52,7 @@ The system consists of several integrated components that work together to handl
 <div style="text-align: center">
   <a href="https://www.youtube.com/watch?v=KBho37kmRm4">
     <p style="font-size: 16px; margin-top: 5px;">Click the Photo to See the Video!</p>
-    <img src="utils/CareConnect_App" alt="Screenshot" width="1200"/>
+    <img src="utils/CareConnect_App.png" alt="Screenshot" width="1200"/>
   </a>
 </div>
 

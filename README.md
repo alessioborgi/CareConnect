@@ -63,7 +63,8 @@ cd hospital-environment-monitoring```
 ### How to Run the System
 
 1. **Run the Engine Script**: Execute the main script from within the './final' folder, to set up the OpenAI API key, create the SQLite database, and query the environmental data.
-   bash ```
+   bash
+   ```
    Engine.py
    ```
 3. **Run the Streamlit Frontend Script**: Execute the frontend script. bash 

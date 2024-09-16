@@ -1,4 +1,4 @@
-# Care Connect: Using LLMs to Improve Patient Care & Hospital Efficiency
+<img width="1728" alt="Juno_Chat" src="https://github.com/user-attachments/assets/f538c7f3-bcb4-4cd2-bb02-b50b8a053f33"># Care Connect: Using LLMs to Improve Patient Care & Hospital Efficiency
 
 ### Copyright © 2024 Alessio Borgi, Simone Redl, Oliver Guy, Amina Tucaković, Hamed Kshiem
 
@@ -38,7 +38,15 @@ The system consists of several integrated components that work together to handl
 	- In addition to querying and visualization, the system can perform actions based on the results of the data, being able to integrate also the sensor ranges.
 	- For example, if the air quality in a specific room is poor, the system can trigger actions like opening or closing windows with a Robot Arm to adjust the environment in real-time.
 
-   
+ You can here see an example of interaction with the **Juno ChatBot** we have built:
+ <div style="text-align: center">
+  <a href="https://www.youtube.com/watch?v=jyYGPEJGU4A">
+    <p style="font-size: 16px; margin-top: 5px;">Click the Photo to See the Video!</p>
+    <img src="utils/Juno_Chat.png" alt="Screenshot" width="1200"/>
+  </a>
+</div>
+
+
  You can see the **Opening-Closing of a Window with a Robot Manipulator** by clicking on the image:
 
 <div style="text-align: center">

@@ -14,10 +14,10 @@ st.sidebar.markdown("_________________________")
 st.sidebar.write("This is a data analysis tool that allows you to interact with your data using natural language, connecting your sensor data and asking questions about your data.")
 # Add group members
 st.sidebar.markdown("**Group Members** 💂‍♂️🥷🕵️‍♂️👩‍💻🧙")
-st.sidebar.markdown("Oliver, Amina, Simone, Alessio, Hamed")
+st.sidebar.markdown("Alessio, Simone, Oliver, Amina, Hamed")
 st.sidebar.markdown(" ")
 st.sidebar.markdown("**Mentors:** 🫅")
-st.sidebar.markdown("Dr. T from TU Graz")
+st.sidebar.markdown("Dr. Thorsten Ruprechter from TU Graz")
 st.sidebar.markdown("_________________________")
 st.sidebar.image("./assets/itulogo.png", use_column_width=True)
 
@@ -75,8 +75,10 @@ if prompt:
             # add image to the body of msg
             path = response.json().get("image_path")
             if not isinstance(path, bool):
-                print(path)
-                st.image(path.replace("final/", "").replace("/", "\\"), use_column_width=True)
+                print("the path is: ", path)
+                new_path = path.replace("final/", "").replace("'", "")
+                print("the new path is:", new_path)
+                st.image(new_path, use_column_width=True)
             st.session_state.messages.append({"role": "assistant", "content": msg})
             st.write(f"**Assistant:** {msg}")
         else:

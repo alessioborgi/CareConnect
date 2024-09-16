@@ -2,6 +2,7 @@ import os
 import ast
 import datetime
 import pandas as pd
+import matplotlib.pyplot as plt
 from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, Float, text
 from langchain_community.utilities import SQLDatabase
 from langchain_openai import ChatOpenAI  # Use ChatOpenAI for chat models
@@ -133,33 +134,37 @@ def build_dataframe_from_response(response_str):
         return "Invalid response format."
     
 def generate_img_visualization(df_img_visualization, oaikey, input_query):
-    
     client = OpenAI(api_key=oaikey)
     chat_completion = client.chat.completions.create(
         model='gpt-4o-mini',
         messages=[{'role': 'user', 
-                'content': f'Here it is the user query: {input_query}.'
-                'Generate python code that prints a line chart of the full data. #The chart should include timestamp on the x axis and the other value on the y-axis'
-                f'For the data use the following dataframe: {df_img_visualization}.'
-                'Only print the python code. Do not include comments.'
-                'Do not output any other text before or after the code.'
-                }])
+                   'content': f'Here it is the user query: {input_query}.'
+                              'Generate python code that prints a line chart of the full data. '
+                              'The chart should include timestamp on the x axis and the other value on the y-axis. '
+                              f'For the data use the following dataframe: {df_img_visualization}. '
+                              'Only print the python code. Do not include comments. '
+                              'Do not output any other text before or after the code.'}]
+    )
     
     code = chat_completion.choices[0].message.content[9:-3]
     
-    # Search for plt.show() in the code and insert plt.savefig before it
-    if 'plt.show()' in code:
-        
-        # Get the current timestamp and format it.
-        current_time = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-        img_path = f"'final/saved_imgs/img_{current_time}.png'"
-        
-        # Insert the savefig line right before plt.show()
-        code = code.replace('plt.show()', f"plt.savefig({img_path})")
-    #response = img_path.replace("'", "")
-    # Execute the modified code
-    exec(code)
+    # Disable interactive mode to prevent GUI pop-up
+    plt.ioff()
+
+    # Get the current timestamp and format it
+    current_time = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+    img_path = f"./final/saved_imgs/img_{current_time}.png"
     
+    # Modify the generated code to save the plot and prevent using plt.show()
+    code = code.replace('plt.show()', f"plt.savefig('{img_path}')")
+    
+    try:
+        # Execute the modified code
+        exec(code)
+    except Exception as e:
+        print(f"Error executing generated code: {e}")
+        return None
+
     return img_path
 
 

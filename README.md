@@ -1,4 +1,4 @@
-# Care Connect: Using LLMs to Improve Patient Care & Hospital Efficiency
+# Care Connect: Using LLMs & Robotics to Improve Patient Care & Hospital Efficiency
 
 ### Copyright © 2024 Alessio Borgi, Simone Redl, Oliver Guy, Amina Tucaković, Hamed Kshiem
 
